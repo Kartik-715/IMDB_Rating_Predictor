@@ -4,7 +4,7 @@ import numpy as np
 
 def toktok_nltk_stop(data, is_lower_case=False):
     tokenizer = nltk.tokenize.toktok.ToktokTokenizer()
-    nltk.download('stopwords')
+    nltk.download('stopwords', quiet=True)
     stopword_list = nltk.corpus.stopwords.words('english')
     final_data = pd.DataFrame(columns=['Text', 'Rating'])
     for index, row in data.iterrows():

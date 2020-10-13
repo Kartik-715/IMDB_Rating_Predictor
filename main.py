@@ -6,7 +6,9 @@ from preprocessing.clean import preprocess_data
 from feature_extraction import split
 from feature_extraction import bag_of_words
 from feature_extraction import tf_idf
-# from feature_extraction import *
+from models.LogisticRegression import ApplyLogisticRegression
+from models.SGDClassifier import ApplySVM
+from Metrics.helpers import findAccuracy
 
 CORPUS_FOLDER = './corpus'
 CLEANED_CORPUS_FOLDER = './cleaned_corpus'
@@ -43,7 +45,10 @@ def main():
     train_reviews, test_reviews = tf_idf.tf_idf(train_reviews, test_reviews)
     print(train_reviews.shape)
     print(test_reviews.shape)
-
+    model = ApplyLogisticRegression(train_reviews, train_rating)
+    # model = ApplySVM(train_reviews, train_rating)
+    predicted_ratings = model.predict(test_reviews)
+    findAccuracy(test_rating, predicted_ratings)
 
 
 if __name__ == '__main__':
