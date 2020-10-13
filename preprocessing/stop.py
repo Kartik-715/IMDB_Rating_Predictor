@@ -12,9 +12,9 @@ def toktok_nltk_stop(data, is_lower_case=False):
         tokens = tokenizer.tokenize(text)
         tokens = [token.strip() for token in tokens]
         if is_lower_case:
-            filtered_tokens = [token for token in tokens if token not in stopword_list]
+            filtered_tokens = [token for token in tokens if token == 'not' or token not in stopword_list]
         else:
-            filtered_tokens = [token for token in tokens if token.lower() not in stopword_list]
+            filtered_tokens = [token for token in tokens if token.lower() == 'not' or token.lower() not in stopword_list]
         filtered_text = ' '.join(filtered_tokens)
         final_data = final_data.append({'Text': filtered_text, 'Rating': row[1]}, ignore_index = True)
     return final_data

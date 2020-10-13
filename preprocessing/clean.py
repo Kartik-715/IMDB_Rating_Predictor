@@ -15,6 +15,7 @@ def rename_columns(data):
 
 def preprocess_data(data):
     data = rename_columns(data)
+    data.dropna(inplace=True)
     data = denoise_text(data)
     data = porter_stemmer(data)
     data = toktok_nltk_stop(data)
