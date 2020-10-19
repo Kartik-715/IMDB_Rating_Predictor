@@ -1,6 +1,9 @@
 from preprocessing.denoise import denoise_text
 from preprocessing.stemmer import porter_stemmer
 from preprocessing.stop import toktok_nltk_stop
+import warnings
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def rename_columns(data):
     data = data.fillna(' ')
@@ -15,7 +18,9 @@ def rename_columns(data):
 
 def preprocess_data(data):
     data = rename_columns(data)
-    data.dropna(inplace=True)
+    data.dropna(how='any', inplace=True)
+    data = data[data.Rating != '']
+    data = data[data.Rating != ' ']
     data = denoise_text(data)
     data = porter_stemmer(data)
     data = toktok_nltk_stop(data)

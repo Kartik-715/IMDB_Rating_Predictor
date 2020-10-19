@@ -27,8 +27,8 @@ def read_clean_data():
     FILE_NAMES = [f for f in listdir(CLEANED_CORPUS_FOLDER) if
                   isfile(join(CLEANED_CORPUS_FOLDER, f))]  # Get List of all files in the CLEANED_CORPUS_FOLDER
 
-    reviews=np.empty([0,1])
-    rating=np.empty([0,1])
+    reviews = np.empty([0, 1])
+    rating = np.empty([0, 1])
     for filename in FILE_NAMES:
         imdb_data = pd.read_csv(CLEANED_CORPUS_FOLDER + '/' + filename, sep='\t', header=0)
         reviews = np.append(reviews, imdb_data.Text.apply(lambda x: np.str_(x)))

@@ -1,6 +1,6 @@
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import MultinomialNB
-from keras.layers import Bidirectional, GlobalMaxPool1D
+from keras.layers import Bidirectional, GlobalMaxPool1D, GRU
 from keras.layers import Dense, LSTM, Dropout
 from keras.models import Sequential
 from sklearn.linear_model import LogisticRegression
@@ -11,6 +11,18 @@ def ApplyLogisticRegression(Reviews, Ratings):
     lr = LogisticRegression(max_iter=500)
     lr.fit(Reviews, Ratings)
     return lr
+
+def ApplyGRU(Reviews, Ratings, EmbeddingLayer):
+    model = Sequential()
+    model.add(EmbeddingLayer)
+    model.add(GRU(100))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+    batch_size = 100
+    epochs = 3
+    model.fit(Reviews, Ratings, batch_size=batch_size, epochs=epochs)
+    return model
 
 
 def ApplyLSTM(Reviews, Ratings, EmbeddingLayer):
