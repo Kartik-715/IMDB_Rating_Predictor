@@ -6,9 +6,7 @@ from preprocessing.clean import preprocess_data
 from feature_extraction import split
 from feature_extraction import bag_of_words
 from feature_extraction import tf_idf
-from models.LogisticRegression import ApplyLogisticRegression
-from models.SGDClassifier import ApplySVM
-from models.MultinomialNB import ApplyMultinomialNB
+from models.model import *
 from Metrics.helpers import findAccuracy
 
 CORPUS_FOLDER = './corpus'
