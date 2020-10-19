@@ -6,6 +6,8 @@ from preprocessing.clean import preprocess_data
 from feature_extraction import split
 from feature_extraction import bag_of_words
 from feature_extraction import tf_idf
+from feature_extraction import word_2_vec
+from feature_extraction import glove
 from models.LogisticRegression import ApplyLogisticRegression
 from models.SGDClassifier import ApplySVM
 from models.MultinomialNB import ApplyMultinomialNB
@@ -38,19 +40,23 @@ def read_clean_data():
     return reviews, rating
 
 def main():
-    read_raw_data()
+    # read_raw_data()
     reviews, rating = read_clean_data()
 
-    train_reviews, test_reviews, train_rating, test_rating = split.split_data(reviews, rating)
+    # train_reviews, test_reviews, train_rating, test_rating = split.split_data(reviews, rating)
     # train_reviews, test_reviews = bag_of_words.bag_of_words(train_reviews, test_reviews)
-    train_reviews, test_reviews = tf_idf.tf_idf(train_reviews, test_reviews)
+    # train_reviews, test_reviews = tf_idf.tf_idf(train_reviews, test_reviews)
+    # train_reviews, test_reviews, train_rating, test_rating, embedding_matrix, num_words, embeddingDim, maxLength = word_2_vec.word_2_vec(reviews, rating)
+    # print(train_reviews.shape)
+    # print(test_reviews.shape)
+    train_reviews, test_reviews, train_rating, test_rating, embedding_matrix, num_words, embeddingDim, maxLength = glove.glove(reviews, rating)
     print(train_reviews.shape)
     print(test_reviews.shape)
     # model = ApplyLogisticRegression(train_reviews, train_rating)
     # model = ApplySVM(train_reviews, train_rating)
-    model = ApplyMultinomialNB(train_reviews, train_rating)
-    predicted_ratings = model.predict(test_reviews)
-    findAccuracy(test_rating, predicted_ratings)
+    # model = ApplyMultinomialNB(train_reviews, train_rating)
+    # predicted_ratings = model.predict(test_reviews)
+    # findAccuracy(test_rating, predicted_ratings)
 
 
 if __name__ == '__main__':

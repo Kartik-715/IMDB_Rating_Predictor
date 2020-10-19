@@ -4,4 +4,5 @@
 /preprocessing/__pycache__/
 /feature_extraction/__pycache__/
 .idea/
-
+/feature_extraction/GoogleNews-vectors-negative300.bin
+/embeddings/
