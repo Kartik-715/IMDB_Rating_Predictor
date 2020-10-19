@@ -6,6 +6,8 @@ from preprocessing.clean import preprocess_data
 from feature_extraction import split
 from feature_extraction import bag_of_words
 from feature_extraction import tf_idf
+from feature_extraction import glove
+from feature_extraction import word_2_vec
 from models.model import *
 from Metrics.helpers import findAccuracy
 
@@ -48,11 +50,16 @@ def main():
     train_reviews, test_reviews, train_rating, test_rating, embedding_matrix, num_words, embeddingDim, maxLength = glove.glove(reviews, rating)
     print(train_reviews.shape)
     print(test_reviews.shape)
+    print(train_rating.shape)
+    print(test_rating.shape)
     # model = ApplyLogisticRegression(train_reviews, train_rating)
     # model = ApplySVM(train_reviews, train_rating)
     # model = ApplyMultinomialNB(train_reviews, train_rating)
+    # model = ApplyLSTM(train_reviews, train_rating, Embedding(num_words, embeddingDim, embeddings_initializer = Constant(embedding_matrix), input_length = maxLength, trainable = False))
+    model = ApplyGRU(train_reviews, train_rating, Embedding(num_words, embeddingDim, embeddings_initializer = Constant(embedding_matrix), input_length = maxLength, trainable = False))
+    predicted_ratings = model.predict_classes(test_reviews)
     # predicted_ratings = model.predict(test_reviews)
-    # findAccuracy(test_rating, predicted_ratings)
+    findAccuracy(test_rating, predicted_ratings, True)
 
 
 if __name__ == '__main__':
