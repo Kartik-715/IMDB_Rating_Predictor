@@ -1,9 +1,8 @@
-import gensim
-import os
 import numpy as np
-from feature_extraction import split
-from tensorflow.python.keras.preprocessing.text import Tokenizer
 from tensorflow.python.keras.preprocessing.sequence import pad_sequences
+from tensorflow.python.keras.preprocessing.text import Tokenizer
+
+from feature_extraction import split
 
 
 # Using Google pre-trained glove embeddings

@@ -1,10 +1,9 @@
-from sklearn.linear_model import SGDClassifier
-from sklearn.naive_bayes import MultinomialNB
-from keras.layers import Bidirectional, GlobalMaxPool1D, GRU, Embedding
-from keras.initializers import Constant
+from keras.layers import Bidirectional, GlobalMaxPool1D, GRU
 from keras.layers import Dense, LSTM, Dropout
 from keras.models import Sequential
 from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import SGDClassifier
+from sklearn.naive_bayes import MultinomialNB
 
 ''' Pass Data and the functions will return the trained model '''
 

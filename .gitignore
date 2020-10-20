@@ -1,6 +1,7 @@
 /cleaned_corpus/
 /corpus/
 /models/__pycache__/
+/Metrics/__pycache__/
 /preprocessing/__pycache__/
 /feature_extraction/__pycache__/
 .idea/
