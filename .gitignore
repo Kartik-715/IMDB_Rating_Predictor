@@ -7,3 +7,6 @@
 .idea/
 /feature_extraction/GoogleNews-vectors-negative300.bin
 /embeddings/
+/env
+requirements.txt
+/saved_models

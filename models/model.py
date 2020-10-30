@@ -8,7 +8,7 @@ from sklearn.naive_bayes import MultinomialNB
 ''' Pass Data and the functions will return the trained model '''
 
 def ApplyLogisticRegression(Reviews, Ratings):
-    lr = LogisticRegression(max_iter=500)
+    lr = LogisticRegression(penalty='l2',dual=True,tol=0.0001,solver='newton-cg',C=0.9)
     lr.fit(Reviews, Ratings)
     return lr
 
@@ -43,7 +43,7 @@ def ApplyLSTM(Reviews, Ratings, EmbeddingLayer):
 
 
 def ApplyMultinomialNB(Reviews, Ratings):
-    mnb = MultinomialNB()
+    mnb = MultinomialNB(alpha=0.8)
     mnb.fit(Reviews, Ratings)
     return mnb
 
