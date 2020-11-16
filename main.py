@@ -43,13 +43,13 @@ def read_clean_data():
     return reviews, rating
 
 def main():
-    read_raw_data()
+    # read_raw_data()
     reviews, rating = read_clean_data()
 
-    # train_reviews, test_reviews, train_rating, test_rating = split.split_data(reviews, rating)
+    train_reviews, test_reviews, train_rating, test_rating = split.split_data(reviews, rating)
     # train_reviews, test_reviews = bag_of_words.bag_of_words(train_reviews, test_reviews)
     # train_reviews, test_reviews = tf_idf.tf_idf(train_reviews, test_reviews)
-    # train_reviews, test_reviews, train_rating, test_rating, embedding_matrix, num_words, embeddingDim, maxLength = word_2_vec.word_2_vec(reviews, rating)
+    train_reviews, test_reviews, train_rating, test_rating, embedding_matrix, num_words, embeddingDim, maxLength = word_2_vec.word_2_vec(reviews, rating)
     # print(train_reviews.shape)
     # print(test_reviews.shape)
     # train_reviews, test_reviews, train_rating, test_rating, embedding_matrix, num_words, embeddingDim, maxLength = glove.glove(reviews, rating)
@@ -62,9 +62,13 @@ def main():
     # model = ApplyMultinomialNB(train_reviews, train_rating)
     # model = ApplyLSTM(train_reviews, train_rating, Embedding(num_words, embeddingDim, embeddings_initializer = Constant(embedding_matrix), input_length = maxLength, trainable = False))
     # model = ApplyGRU(train_reviews, train_rating, Embedding(num_words, embeddingDim, embeddings_initializer = Constant(embedding_matrix), input_length = maxLength, trainable = False))
-    predicted_ratings = model.predict_classes(test_reviews)
-    # predicted_ratings = model.predict(test_reviews)
-    # findAccuracy(test_rating, predicted_ratings, True)
+    model = ApplyCNN(train_reviews, train_rating, Embedding(num_words, embeddingDim, embeddings_initializer = Constant(embedding_matrix), input_length = maxLength, trainable = False), maxLength)
+    # predicted_ratings = model.predict_classes(test_reviews)
+    predicted_ratings = model.predict(test_reviews)
+    print(predicted_ratings[0:5])
+    predicted_ratings=np.argmax(predicted_ratings, axis=1)
+    print(predicted_ratings[0:5])
+    findAccuracy(test_rating, predicted_ratings, True)
 
 
 if __name__ == '__main__':
