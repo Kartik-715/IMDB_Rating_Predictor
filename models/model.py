@@ -4,6 +4,12 @@ from keras.models import Sequential
 from sklearn.linear_model import LogisticRegression
 from sklearn.linear_model import SGDClassifier
 from sklearn.naive_bayes import MultinomialNB
+from tensorflow.keras import Input
+from tensorflow.keras.layers import Conv1D
+from tensorflow.keras.layers import GlobalMaxPooling1D
+from keras.layers import concatenate
+from keras import Model
+
 
 ''' Pass Data and the functions will return the trained model '''
 
@@ -11,6 +17,31 @@ def ApplyLogisticRegression(Reviews, Ratings):
     lr = LogisticRegression(penalty='l2',dual=True,tol=0.0001,solver='newton-cg',C=0.9)
     lr.fit(Reviews, Ratings)
     return lr
+
+def ApplyCNN(Reviews, Ratings, EmbeddingLayer, maxLength):
+    sequence_input = Input(shape=(maxLength,), dtype='int32')
+    embedded_sequences = EmbeddingLayer(sequence_input)
+    convs = []
+    filter_sizes = [2,3,4,5,6]
+    for filter_size in filter_sizes:
+        l_conv = Conv1D(filters=200,
+                        kernel_size=filter_size,
+                        activation='relu')(embedded_sequences)
+        l_pool = GlobalMaxPooling1D()(l_conv)
+        convs.append(l_pool)
+    l_merge = concatenate(convs, axis=1)
+    x = Dropout(0.1)(l_merge)
+    x = Dense(128, activation='relu')(x)
+    x = Dropout(0.2)(x)
+    preds = Dense(11, activation='sigmoid')(x)
+    model = Model(sequence_input, preds)
+    model.compile(loss='binary_crossentropy',
+                  optimizer='adam',
+                  metrics=['acc'])
+    num_epochs = 3
+    batch_size = 32
+    hist = model.fit(Reviews, Ratings, epochs=num_epochs, validation_split=0.1, shuffle=True, batch_size=batch_size)
+    return model
 
 def ApplyGRU(Reviews, Ratings, EmbeddingLayer):
     model = Sequential()
