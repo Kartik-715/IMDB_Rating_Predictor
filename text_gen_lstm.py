@@ -63,7 +63,6 @@ def create_model(max_sequence_len, total_words):
 
     return model
 
-
 def generate_text(seed_text, next_words, model, max_sequence_len, tokenizer):
     for _ in range(next_words):
         token_list = tokenizer.texts_to_sequences([seed_text])[0]
@@ -106,7 +105,6 @@ def main():
 
         output = generate_text(movie_name, 20, model, 32, tokenizer)
         print(output)
-
 
 if __name__ == '__main__':
     main()
