@@ -35,9 +35,9 @@ def get_sequence_of_tokens(corpus):
         for i in range(1, len(token_list)):
             n_gram_sequence = token_list[:i+1]
             input_sequences.append(n_gram_sequence)
-    return input_sequences, total_words
+    return input_sequences, total_words, tokenizer
 
-def generate_padded_sequences(input_sequences):
+def generate_padded_sequences(input_sequences, total_words):
     max_sequence_len = max([len(x) for x in input_sequences])
     input_sequences = np.array(pad_sequences(input_sequences, maxlen=max_sequence_len, padding='pre'))
 
@@ -64,9 +64,10 @@ def create_model(max_sequence_len, total_words):
     return model
 
 
-def generate_text(seed_text, next_words, model, max_sequence_len):
+def generate_text(seed_text, next_words, model, max_sequence_len, tokenizer):
     for _ in range(next_words):
         token_list = tokenizer.texts_to_sequences([seed_text])[0]
+        # print(token_list)
         token_list = pad_sequences([token_list], maxlen=max_sequence_len-1, padding='pre')
         predicted = model.predict_classes(token_list, verbose=0)
 
@@ -76,22 +77,23 @@ def generate_text(seed_text, next_words, model, max_sequence_len):
                 output_word = word
                 break
         seed_text += " "+output_word
+        # print(seed_text)
     return seed_text.title()
 
 def main():
     # read_raw_data()
     reviews, rating = read_clean_data()
-    print(reviews[0:10])
+    # print(reviews[0:10])
 
-    inp_sequences, total_words = get_sequence_of_tokens(reviews)
-    print(inp_sequences[0:10])
+    inp_sequences, total_words, tokenizer = get_sequence_of_tokens(reviews)
+    # print(inp_sequences[0:10])
 
-    predictors, label, max_sequence_len = generate_padded_sequences(inp_sequences)
+    predictors, label, max_sequence_len = generate_padded_sequences(inp_sequences, total_words)
 
     model = create_model(max_sequence_len, total_words)
     model.summary()
 
-    model.fit(predictors, label, epochs=100, verbose=5)
+    model.fit(predictors, label, epochs=10, verbose=5)
 
     while True:
         print('Input rating:')
@@ -102,7 +104,7 @@ def main():
         print('Input movie name:')
         movie_name = input()
 
-        output = generate_text(movie_name, 20, model, 32)
+        output = generate_text(movie_name, 20, model, 32, tokenizer)
         print(output)
 
 
