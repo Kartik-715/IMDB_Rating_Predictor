@@ -94,16 +94,22 @@ def main():
 
     model.fit(predictors, label, epochs=10, verbose=5)
 
+    input_rating = []
+    output_reviews = []
+
     while True:
         print('Input rating:')
         rating = int(input())
         if rating == -1:
             break
 
+        input_rating.append(rating)
+
         print('Input movie name:')
         movie_name = input()
 
         output = generate_text(movie_name, 20, model, 32, tokenizer)
+        output_reviews.append(output)
         print(output)
 
 if __name__ == '__main__':

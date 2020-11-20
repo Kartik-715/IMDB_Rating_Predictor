@@ -96,16 +96,23 @@ def main():
     EPOCHS = 2
     history = model.fit(dataset, epochs=EPOCHS)
 
+    input_rating = []
+    output_reviews = []
+
     while True:
         print('Input rating:')
         rating = int(input())
         if rating == -1:
             break
 
+        input_rating.append(rating)
+
         print('Input movie name:')
         movie_name = input()
 
-        print(  generate_text(model,char2idx, idx2char, start_string=movie_name )   )
+        output = generate_text(model,char2idx, idx2char, start_string=movie_name )
+        output_reviews.append(output)
+        print(output)
 
 if __name__ == '__main__':
     main()

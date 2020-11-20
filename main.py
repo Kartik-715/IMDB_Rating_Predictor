@@ -9,6 +9,7 @@ from feature_extraction import bag_of_words
 from feature_extraction import tf_idf
 from feature_extraction import glove
 from feature_extraction import word_2_vec
+from feature_extraction import custom_glove
 from models.model import *
 from Metrics.helpers import findAccuracy
 from tensorflow.keras.initializers import Constant
